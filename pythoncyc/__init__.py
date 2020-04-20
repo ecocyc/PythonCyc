@@ -1,4 +1,4 @@
-# Copyright (c) 2014, SRI International
+# Copyright (c) 2014-2020, SRI International
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,7 +22,7 @@
 
 """
 This module is part of PythonCyc, a Python interface module to Pathway Tools.
-This code has been tested with Python 2.6.
+This code has been tested with Python 3.7.
 
 Pathway Tools (version 18.5 and up) must be running on some machine
 with at least the option '-python'. It is also recommended
@@ -41,8 +41,8 @@ Please consult the tutorial.html file, under directory doc, for more information
 about how to use PythonCyc.
 """
 
-from PGDB import PGDB
-from PTools import sendQueryToPTools
+from . PGDB import PGDB
+from . PTools import sendQueryToPTools
 
 def select_organism(orgid):
     """

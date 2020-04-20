@@ -1,4 +1,4 @@
-# Copyright (c) 2014, SRI International
+# Copyright (c) 2014-2020, SRI International
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -26,8 +26,8 @@
 """
 
 import sys
-import config
-from PTools import PToolsError, PythonCycError
+from . import config
+from . PTools import PToolsError, PythonCycError
 if 'IPython' in sys.modules:
     from IPython.display import display, HTML
 
@@ -113,19 +113,19 @@ class PFrame():
         self.__dict__ = dict
 
     def vectorize_dict(self):
-        self.__dict__.values()
+        list(self.__dict__.values())
 
     # End of definitions for pickle.
 
     def __getslice__(self, i, j, stride = None):
         if config._debug:
-            print 'PFrame __getslice__ ', i, j, stride
+            print('PFrame __getslice__ ', i, j, stride)
         return self.instances[i:j:stride]
 
     def __getattr__(self, attr):
         # Accessing a slot of the frame using attribute syntax (e.g. r.left)
         if config._debug:
-            print 'PFrame __getattr__ ', attr
+            print('PFrame __getattr__ ', attr)
 
         if attr in self.__dict__:
             return self.__dict__[attr]
@@ -148,7 +148,7 @@ class PFrame():
 
     def __getitem__(self,attr):
         if config._debug:
-           print "PFrame __getitem__ ", attr
+           print("PFrame __getitem__ ", attr)
         # The slice case is for attr = slice(i,j,s)
         if (isinstance(attr,int) or isinstance(attr, slice)):
            if 'instances' in self.__dict__:
@@ -166,7 +166,7 @@ class PFrame():
                 return self.__getattr__(attr)
 
     def __dir__(self):
-        return (dir(self.__class__) + self.__dict__.keys())
+        return (dir(self.__class__) + list(self.__dict__.keys()))
 
     def get_frame_slot_value(self, slot):
         """

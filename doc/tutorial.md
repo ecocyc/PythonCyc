@@ -1,6 +1,6 @@
 <pre>
 ----------------------------------------------------------------------
-Copyright (c) 2014, SRI International
+Copyright (c) 2014-2020, SRI International
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -27,12 +27,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # PythonCyc Tutorial
 
  PythonCyc is a Python interface package to [Pathway Tools](http://brg.ai.sri.com/ptools/), version 18.5
- or above. PythonCyc has been tested with Python 2.6 and IPython on Mac
- OS X, Linux and Microsoft Windows.  Since PythonCyc is based on the programming
+ or above. PythonCyc has been tested with Python 3.7 on Mac
+ OS X, and Linux.  Since PythonCyc is based on the programming
  language Python, you must use a Python interpreter to use
  PythonCyc. In the following we assume that you have installed Python
- (we recommend version 2.6 or above, but it most likely work with any
- 2.x version).  
+ (we recommend version 3.7 or above, but it most likely work with any
+ 3.5+ version).  
 
  For the complete API documentation of PythonCyc, please consult [PythonCyc API](http://pythoncyc.readthedocs.org).
 
@@ -41,7 +41,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ## Installation
 
 We assume that you have downloaded PythonCyc from
-[PythonCyc at GitHub](https://github.com/latendre/PythonCyc).
+[PythonCyc at GitHub](https://github.com/ecocyc/PythonCyc).
 This may be done by using git cloning or by downloading the zip
 file of PythonCyc from GitHub.
 The next step is to make PythonCyc accessible from your running Python

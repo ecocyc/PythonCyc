@@ -1,4 +1,4 @@
-# Copyright (c) 2014, SRI International
+# Copyright (c) 2014-2020, SRI International
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -25,7 +25,7 @@ This module handles basic operations for receiving and sending messages via a
 network socket to Pathway Tools.
 
 No major class is defined in this file, but only toplevel functions and
-some simple classes for errors handling.
+some simple classes for error handling.
 
 """
 
@@ -34,7 +34,7 @@ import sys
 import socket as so
 import json
 import time
-import config
+from . import config
 
 def recvAll(s):
     """
@@ -53,18 +53,19 @@ def recvAll(s):
     """
 
     if config._debug:
-        print 'recvAll ...'
+        print('recvAll ...')
     # Get the type of message which is one character long.
     type = s.recv(1)
-    # print "type ", type
-    if type == 'A':
+    if config._debug:
+        print("type ", type)
+    if type == b'A':
         # The length of the message is not given, use time out approach.
         return recvTimeOut(s)
-    elif type == 'L':
+    elif type == b'L':
         # The next 10 characters give the length.
         lengthMsg = int(recvFixedLength(s, 10))
         if config._debug:
-            print "lengthMsg ", lengthMsg
+            print("lengthMsg ", lengthMsg)
         return recvFixedLength(s, lengthMsg)            
     else:
         # Something is broken on the server side, so
@@ -94,12 +95,12 @@ def recvFixedLength(s, lengthMsg):
     nbBytesRecv = 0
     while nbBytesRecv < lengthMsg:
         piece = s.recv(min(lengthMsg - nbBytesRecv, 4096))
-        if piece == '':
+        if piece == b'':
             # Give up now because nothing was received.
             return ''.join(pieces)
-        pieces.append(piece)
+        pieces.append(piece.decode('utf-8'))
         nbBytesRecv = nbBytesRecv + len(piece)
-    # print 'Fixed receive: ',  ''.join(pieces)
+    # print('Fixed receive: ',  ''.join(pieces))
     return ''.join(pieces)
 
 def recvTimeOut(socket, timeOut=2):
@@ -145,7 +146,7 @@ def recvTimeOut(socket, timeOut=2):
     if pieces == []:
         return None
     else:
-        return ''.join(pieces)
+        return (b''.join(pieces)).decode('utf-8')
 
 # Call a PTools function synchronously for any PGDB.
 def sendQueryToPTools(query):
@@ -157,8 +158,9 @@ def sendQueryToPTools(query):
     Returns
       The result of the query, as a Python object, decoded by Json.
     """
-    if config._debug:
-        print 'Sending query '+query
+    byte_query = query.encode('utf-8')
+    if config._debug: # was config._debug
+        print('Sending query '+query)
     if config._hostname == '':
        raise PToolsError('The hostname to connect to a running Pathway Tools has not been set. Use function config.set_hostname() to set the host name of your running Pathway Tools.') 
     try:
@@ -166,19 +168,19 @@ def sendQueryToPTools(query):
         # Make socket non blocking.
         s.setblocking(0)
         s.settimeout(360)  # The query may take a long time in some cases.
-        s.connect((config._hostname,config._hostport))
-    except so.error, msg:
+        s.connect((config._hostname, config._hostport))
+    except so.error as msg:
         raise PToolsError('Failed to create a connection to a running Pathway Tools at '+ config._hostname+ ' on port '+ str(config._hostport)+'. Make sure Pathway Tools is running with option -python. Error code: '+str(msg[0])+', error message: '+ msg[1])
     # Send, receive and close socket.
-    sendAll(s,query)
+    sendAll(s,byte_query)
     if config._debug:
-        print 'Sent '+query+' to Pathway Tools.'
+        print('Sent '+query+' to Pathway Tools.')
     response = recvAll(s)
-    if config._debug and len(response) < 4000:
-        print 'JSON Received: ', response
+    if config._debug:  # and len(response) < 4000:
+        print('JSON Received: "', response, '"')
     r = json.loads(response)
     s.close()
-    if isinstance(r,basestring) and r.startswith(':error'):
+    if isinstance(r,str) and r.startswith(':error'):
         raise PToolsError('An internal error occurred in the running Pathway Tools application: %s' % r)
     else:
         # Return some result.

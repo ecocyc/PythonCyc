@@ -1,4 +1,4 @@
-# Copyright (c) 2014, SRI International
+# Copyright (c) 2014-2020, SRI International
 # 
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -20,11 +20,10 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # ----------------------------------------------------------------------
 
-import PTools
 import sys
-import config 
-from PTools import PToolsError, PythonCycError
-from PToolsFrame import Symbol, PFrame, convertLispIdtoPythonId
+from . import config
+from . PTools import PToolsError, PythonCycError, sendQueryToPTools
+from . PToolsFrame import Symbol, PFrame, convertLispIdtoPythonId
 if 'IPython' in sys.modules:
     from IPython.display import display, HTML
 
@@ -51,7 +50,7 @@ def may_be_frameid(x):
         return [may_be_frameid(y) for y in x]
     if isinstance(x,PFrame):
         return x
-    elif isinstance(x,basestring):
+    elif isinstance(x, str):
         return Symbol(x)
     else: raise PythonCycError('Error: the argument must a string or a PFrame but given {0}.'.format(x))
 
@@ -65,7 +64,7 @@ def mkey(s):
    Returns
        if s is a string, it is suffixed by ':', otherwise s itself.
    """
-   if isinstance(s,basestring):
+   if isinstance(s, str):
       return ':'+s
    else: return s
 
@@ -83,8 +82,8 @@ def convertArgToLisp(arg, inquote=False):
     """
     if isinstance(arg, Symbol):
         return ("" if inquote else "'")+arg._name
-    # Type basestring includes string and unicode string.
-    elif isinstance(arg, basestring):
+    # Type basestring replaced by str in python3 PEM 4-16-2020
+    elif isinstance(arg, str):
         # It is either a symbol, a string or a keyword.
         # If it starts and ends with '|', assumes it is a symbol and add
         # a quote if not already in a quoted context otherwise just
@@ -96,14 +95,15 @@ def convertArgToLisp(arg, inquote=False):
             return ("" if inquote else "'")+arg
         elif arg[0] == ':' and not (' ' in arg):
             return arg
-        else: return '"'+arg+'"'
+        else:
+            return '"'+arg+'"'
     # Note: False and True are also of type int. 
     #       So, do this test before isinstance(... (int))
     elif isinstance(arg, bool):
         return 't' if arg else 'nil'
     elif arg == None:
         return 'nil'
-    elif isinstance(arg, (int, long, float, complex)):
+    elif isinstance(arg, (int, float, complex)):
         return str(arg)
     elif isinstance(arg, PFrame):
         # Just using the frameid is enough (there is no need to
@@ -116,7 +116,7 @@ def convertArgToLisp(arg, inquote=False):
     elif isinstance(arg, dict):
         # Convert a dictionary into a list of lists.
         # {'a':2, 'b':3} => (('a' . 2) ('b' . 3))
-        return convertArgToLisp(dict.items(arg))
+        return convertArgToLisp(list (dict.items(arg)))
     elif isinstance(arg, tuple):
         # A Python tuple becomes an improper list in Lisp
         # (1,)    => (NIL . 1)
@@ -158,16 +158,19 @@ class PGDB():
         can be retrieved by using the attribute syntax of Python, such
         as ecoli.reactions.
         """
-        if config._debug:
-            print "PGDB __init__"
+        #from . PTools import sendQueryToPTools
+        if config._debug: 
+            print("PGDB __init__")
         self._orgid = "unknown"
         self._error = False
         # All PFrame objects of the PGDB are stored in attribute _frames, keyed by their frame ids.
         self._frames = {}
         # Verify that the running Pathway Tools has the PGDB (organism).
-        try: 
-           r = PTools.sendQueryToPTools('(orgid-exist-p \''+orgid+')')
-        except PToolsError, msg:
+        try:
+           query = ('(orgid-exist-p \''+orgid+')')
+           r = sendQueryToPTools(query)
+           #r = sendQueryToPTools(query)
+        except PToolsError as msg:
             raise PythonCycError('Pathway Tools was unable to verify if organism (orgid) %s is known in your running Pathway Tools. More specifically: %s' % (orgid, msg))
         if not r:
             raise PythonCycError("The organism orgid %s is unknown. Use pythoncyc.all_orgids() to get a list of known orgids." % orgid)
@@ -195,7 +198,7 @@ class PGDB():
         return '<PGDB '+self._orgid+', currently has '+str(self._nb_pframes())+' PFrames>'
 
     def __dir__(self):
-        return (dir(self.__class__) + self.__dict__.keys())
+        return (dir(self.__class__) + list(self.__dict__.keys()))
 
     def _nb_pframes(self):
         """
@@ -225,7 +228,7 @@ class PGDB():
         classes exist in the PGDB.
         """
         if config._debug:
-            print "PGDB ",self._orgid, "__getattr__", attr
+            print ("PGDB ",self._orgid, "__getattr__", attr)
         # If the converted attribute exists as an attribute.
         attrId = convertLispIdtoPythonId(attr)
         if attrId in self.__dict__:
@@ -270,7 +273,7 @@ class PGDB():
 
     def __getitem__(self, index):
         if config._debug:
-           print "PGDB __getitem__", index
+           print ("PGDB __getitem__", index)
         if (isinstance(index,int) or isinstance(index,slice)) :
            if self._frames:
               return self._frames[index]
@@ -335,10 +338,10 @@ class PGDB():
         """
         # Evaluate a query in the context of this PGDB.
         if self._orgid == "unknown":
-            print "Cannot send any query because the selected organism is unknown."
+            print("Cannot send any query because the selected organism is unknown.")
             return None
         else:
-            return PTools.sendQueryToPTools('(with-organism (:org-id \''+self._orgid+') '+query+')')
+            return sendQueryToPTools('(with-organism (:org-id \''+self._orgid+') '+query+')')
 
     def sendPgdbFnCallBool(self, fn, *args, **kwargs):
         """
@@ -452,7 +455,7 @@ class PGDB():
         """
         frameObjects = self.sendPgdbFnCallList('get-frame-objects', may_be_frameid(frameids))
         pframes = []
-        for frameid, slotsData in frameObjects.iteritems():
+        for frameid, slotsData in iter(frameObjects.items()):                   # frameObjects.iteritems():
             attrID = convertLispIdtoPythonId(frameid)
             if attrID in self.__dict__:
                 f = self.__dict__[attrID]
@@ -461,7 +464,7 @@ class PGDB():
                 self.__dict__[attrID] = f
             pframes.append(f)
             f._gotframe = True
-            for slot, data in slotsData.iteritems():
+            for slot, data in iter(slotsData.items()):  # slotsData.iteritems():
                 f.__dict__[convertLispIdtoPythonId(slot)] = data
         return pframes
                

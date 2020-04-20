@@ -20,14 +20,14 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # ----------------------------------------------------------------------
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='PythonCyc',
     version='1.0',
     author='Mario Latendresse',
     author_email='latendre@ai.sri.com',
-    packages=['pythoncyc'],
+    packages=find_packages(),
     license='LICENSE',
     description='A Python interface to Pathway Tools',
     long_description=open('README.md').read()
