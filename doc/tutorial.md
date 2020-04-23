@@ -27,12 +27,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # PythonCyc Tutorial
 
  PythonCyc is a Python interface package to [Pathway Tools](http://brg.ai.sri.com/ptools/), version 18.5
- or above. PythonCyc has been tested with Python 3.7 on Mac
- OS X, and Linux.  Since PythonCyc is based on the programming
+ or above. PythonCyc has been tested with Python 3.5 and 3.7 on Linux and MacOXS.
+ Since PythonCyc is based on the programming
  language Python, you must use a Python interpreter to use
  PythonCyc. In the following we assume that you have installed Python
- (we recommend version 3.7 or above, but it most likely work with any
- 3.5+ version).  
+ (we recommend version 3.5 or above).
 
  For the complete API documentation of PythonCyc, please consult [PythonCyc API](http://pythoncyc.readthedocs.org).
 
@@ -52,18 +51,28 @@ following platforms.
 
 Open a terminal window and change your directory to the location where
 you unpacked the PythonCyc package. You must have the file setup.py, and the subdirectory pythoncyc, 
-in that directory. Assuming that 'shell>'
+in that directory.  We recommend you create and activate a python virtual environment for
+your pythoncyc installation (see the [python venv webpage](https://docs.python.org/3/library/venv.html).
+Otherwise, you will need to run the following command with 'sudo' because pythoncyc installation will write
+files to your python system area.
+Assuming that 'shell>'
 is the prompt of your current Unix shell, execute the following
 command:
 
 <pre>
-shell> sudo python setup.py install
+shell> pip install .
 </pre>
 
- This may prompt you for your login password because sudo requires
-authorization to modify some system directories. This command copies
-several files from the pythoncyc subdirectory to other locations on
-your computer where Python is installed, byte-compiles these files
+alternatively, you can install using setup tools, by executing:
+
+<pre>
+shell> python setup.py install
+</pre>
+
+but installing with pip is recommended.
+
+The installation command copies several files from the pythoncyc subdirectory
+either the virtual environment or the system python libraries, byte-compiles these files
 and may do other operations depending on the Python installation you
 have. No error messages should be reported. In case of errors, make
 sure you have installed Python and that it is working. 
@@ -355,7 +364,7 @@ but we can also use indexing directly on the class reactions such as
 
 <pre>
 >>> reactions[0]
-{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': u'|3.1.22.4-RXN|'}
+{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': '|3.1.22.4-RXN|'}
 </pre>
 
 but the frameid value is likely different (MetaCyc is periodically
@@ -368,7 +377,7 @@ ids. For example,
 
 <pre>
 >>> meta['|3.1.22.4-RXN|']
-{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': u'|3.1.22.4-RXN|'}
+{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': '|3.1.22.4-RXN|'}
 </pre>
 
 <p>
@@ -381,7 +390,7 @@ example,
 
 <pre>
 >>> reactions[0].left
-[u'|Double-Stranded-DNAs|', u'|WATER|']
+['|Double-Stranded-DNAs|', '|WATER|']
 </pre>
 
 retrieves the data for slot <tt>left</tt> **and that value is kept in the PFrame**. 
@@ -393,8 +402,8 @@ We can verify that the the PFrame has the left attribute in the PFrame itself:
 
 <pre>
 >>> reactions[0]
-{u'left': [u'|Double-Stranded-DNAs|', u'|WATER|'], '_gotframe': False, 
-'_isclass': False, 'pgdb': meta, 'frameid': u'|3.1.11.3-RXN|'}
+{'left': ['|Double-Stranded-DNAs|', '|WATER|'], '_gotframe': False, 
+'_isclass': False, 'pgdb': meta, 'frameid': '|3.1.11.3-RXN|'}
 </pre>
 
 ### Explicit Transfer of Frames
@@ -454,7 +463,7 @@ The following retrieves the chemical formula of compound TRP
 
 <pre>
 >>> meta.get_slot_values('TRP', 'CHEMICAL-FORMULA')
-{u'|N|': [2], u'|C|': [11], u'|H|': [12], u'|O|': [2]}
+{'|N|': [2], '|C|': [11], '|H|': [12], '|O|': [2]}
 </pre>
 
 The method <tt>get_slot_values</tt> is needed (instead of
@@ -636,14 +645,14 @@ frames is a list of strings, the synonyms of the compounds:
 
 <pre>
 >>> meta.get_slot_values('atp', 'synonyms')
-[u'adenylpyrophosphate', u'adenosine-triphosphate', u"adenosine-5'-triphosphate"]
+['adenylpyrophosphate', 'adenosine-triphosphate', u"adenosine-5'-triphosphate"]
 </pre>
 
 You could modify that list, say to only include the first two synonyms, in the following
 way:
 
 <pre>
->>> meta.put_slot_values('atp', 'synonyms', [u'adenylpyrophosphate', u'adenosine-triphosphate'])
+>>> meta.put_slot_values('atp', 'synonyms', ['adenylpyrophosphate', 'adenosine-triphosphate'])
 </pre>
 
  Note: Typically, modifying a slot should be done on your own
@@ -656,7 +665,7 @@ value to store in the slot as a list of sublists, such as:
 
 <pre>
 >>> meta.put_slot_values('water', 'chemical-formula', [['|H|',2],['|O|',1]])
-{u'|H|': [2], u'|O|': [1]}
+{'|H|': [2], '|O|': [1]}
 </pre>
 
 The returned value is a dictionary that contains frames ids (i.e., the vertical bars
@@ -664,7 +673,7 @@ surrounding H and O indicate that they are symbols). Or you can use a dictionary
 as in
 
 <pre>
->>> meta.put_slot_values('water', 'chemical-formula', {u'|H|': [2], u'|O|': [1]})
+>>> meta.put_slot_values('water', 'chemical-formula', {'|H|': [2], '|O|': [1]})
 </pre>
 
 In all cases, care must be taken to have the right representation when
@@ -741,18 +750,18 @@ create a PFrame for reaction RXN-9000 and retrieve all its slots and data,
 
 <pre>
 >>> PFrame('RXN-9000', meta, getFrameData=True)
-{u'enzymatic_reaction': [u'|ENZRXN-14558|'], u'right': [u'|PROTON|', u'|CPD-9460|', u'|UDP|'], 
-u'schema_p': True, '_isclass': False, u'creator': u'|Kate|', u'ec_number': [u'|EC-2.4.1.17|'], 
-u'creation_date': 3408307573, u'reaction_direction': u'|LEFT-TO-RIGHT|', 'frameid': '|RXN-9000|', 
-u'in_pathway': [u'|PWY-5756|'], u'left': [u'|CPD-9459|', u'|UDP-GLUCURONATE|'], 
-u'citations': [u'WOJCIECHOWSKI75'], u'key_slots': u'|COMMON-NAME|', u'physiologically_relevant_p': [True], 
-u'synonym_slots': [u'|ABBREV-NAME|', u'|SYNONYMS|'], u'atom_mappings': {u'|NO-HYDROGEN-ENCODING|': 
+{'enzymatic_reaction': ['|ENZRXN-14558|'], 'right': ['|PROTON|', '|CPD-9460|', '|UDP|'], 
+'schema_p': True, '_isclass': False, 'creator': '|Kate|', 'ec_number': ['|EC-2.4.1.17|'], 
+'creation_date': 3408307573, 'reaction_direction': '|LEFT-TO-RIGHT|', 'frameid': '|RXN-9000|', 
+'in_pathway': ['|PWY-5756|'], 'left': ['|CPD-9459|', '|UDP-GLUCURONATE|'], 
+'citations': ['WOJCIECHOWSKI75'], 'key_slots': '|COMMON-NAME|', 'physiologically_relevant_p': [True], 
+'synonym_slots': ['|ABBREV-NAME|', '|SYNONYMS|'], 'atom_mappings': {'|NO-HYDROGEN-ENCODING|': 
 [[38, 37, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 
 7, 9, 10, 12, 13, 60, 61, 62, 63, 64, 65, 66, 19, 20, 22, 24, 23, 68, 69, 67, 32, 0, 1, 2, 3, 4, 
 5, 8, 11, 14, 15, 16, 17, 18, 21, 25, 29, 33, 28, 26, 27, 30, 31, 34, 36, 35], 
-[{u'|CPD-9459|': [37, 69], u'|UDP-GLUCURONATE|': [0, 36]}, {u'|CPD-9460|': [0, 44], u'|UDP|': [45, 69]}]]}, 
-'_gotframe': True, u'gibbs_0': 2.7000000000000002, u'substrates': [u'|UDP-GLUCURONATE|', 
-u'|CPD-9459|', u'|PROTON|', u'|CPD-9460|', u'|UDP|'], 'pgdb': <PGDB meta, currently has 1 PFrames>}
+[{'|CPD-9459|': [37, 69], '|UDP-GLUCURONATE|': [0, 36]}, {'|CPD-9460|': [0, 44], '|UDP|': [45, 69]}]]}, 
+'_gotframe': True, 'gibbs_0': 2.7000000000000002, 'substrates': ['|UDP-GLUCURONATE|', 
+'|CPD-9459|', '|PROTON|', '|CPD-9460|', '|UDP|'], 'pgdb': <PGDB meta, currently has 1 PFrames>}
 </pre>
 
 For creating a class, the <tt>isClass</tt> keyword parameter must say so,
