@@ -1,4 +1,4 @@
-Copyright (c) 2014, SRI International
+Copyright (c) 2014-2020, SRI International
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -20,20 +20,25 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-PythonCyc 1.0, November 2014
+PythonCyc 1.1, April 2020
 ============================
 
 Overview
 --------
 
-The PythonCyc module provides a Python interface to a Pathway Tools
+The PythonCyc module provides a Python 3.5+ interface to a Pathway Tools
 application running either locally or remotely. This module has been
 designed to work on the three platforms supported by Pathway Tools:
 Linux, Mac OS X, and Windows. Pathway Tools version 18.5 or
 above is needed to use this module.
 
-This module has been tested under Python 2.6 and 2.7, IPython 2.1 and
-IPython notebook.
+This release has been tested under Python 3.5 and 3.7 under Linux and
+Mac OSX.  It has not been tested under Windows, or with IPython
+or Jupyter.
+
+The original PythonCyc 1.0 for Python 2.6-2.7
+[is still available](https://github.com/latendre/PythonCyc)
+
 
 Installation
 ------------
@@ -46,18 +51,19 @@ Documentation
 -------------
 
 1) For a tutorial on how to use PythonCyc, please consult the HTML file
-tutorial.html under the doc directory of this package, or go directly
-to the tutorial by clicking the following link https://github.com/latendre/PythonCyc/blob/master/doc/tutorial.md
+tutorial.html under the doc directory of this package, or [go directly
+to the tutorial](https://github.com/ecocyc/PythonCyc/blob/master/doc/tutorial.md]
 
-2) For the API documentation of PythonCyc, please consult http://pythoncyc.readthedocs.org. 
+2) API documentation for PythonCyc is available [here](http://pythoncyc.readthedocs.org).
+Note that there have not been any changes to the API documentation in this release.
 
-3) For the latest news about PythonCyc, please consult
-http://bioinformatics.ai.sri.com/ptools/pythoncyc.html
+3) The latest news about PythonCyc is available [here](http://bioinformatics.ai.sri.com/ptools/pythoncyc.html).
 
 Author
 ------ 
 
-Mario Latendresse, latendre@AI.SRI.COM
+PythonCyc 1.0 was developed by Mario Latendresse, latendre@AI.SRI.COM
+The Python 3 update (aka PythonCyc 1.1) was developed by Peter Midford, midford@ai.sri.com
 
 License
 -------
