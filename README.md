@@ -52,7 +52,7 @@ Documentation
 
 1) For a tutorial on how to use PythonCyc, please consult the HTML file
 tutorial.html under the doc directory of this package, or [go directly
-to the tutorial](https://github.com/ecocyc/PythonCyc/blob/master/doc/tutorial.md]
+to the tutorial](https://github.com/ecocyc/PythonCyc/blob/master/doc/tutorial.md)
 
 2) API documentation for PythonCyc is available [here](http://pythoncyc.readthedocs.org).
 Note that there have not been any changes to the API documentation in this release.
