@@ -2330,7 +2330,7 @@ class PGDB():
       Return value
           A boolean value. 
       """
-      return self.sendPgdbFnCallBool('rna-coding-gene', may_be_frameid(gene))
+      return self.sendPgdbFnCallBool('rna-coding-gene?', may_be_frameid(gene))
   
     def protein_coding_gene(self, gene):
       """
@@ -2344,7 +2344,7 @@ class PGDB():
       Return value
           A boolean value. 
       """
-      return self.sendPgdbFnCallBool('protein-coding-gene', may_be_frameid(gene))
+      return self.sendPgdbFnCallBool('protein-coding-gene?', may_be_frameid(gene))
   
     def pseudo_gene_p(self, gene):
       """
