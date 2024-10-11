@@ -82,7 +82,7 @@ have. No error messages should be reported. In case of errors, make
 sure you have installed Python and that it is working.
 
 To test your
-PythonCyc installation, please consult the Section [Getting Started](#gettingStarted) in this document.
+PythonCyc installation, please consult the Section [Getting Started](#Getting-Started) in this document.
 
 ### Microsoft Windows
 
@@ -102,7 +102,7 @@ byte-compiles these files and may do other operations depending on the
 Python installation you have. No error messages should be reported. In case
 of errors, make sure you have installed Python and that it is working. To
 test your PythonCyc installation, please consult the
-Section [Getting Started](#gettingStarted) in this
+Section [Getting Started](#Getting-Started) in this
 document.
 
 ## Getting Started
@@ -167,7 +167,7 @@ Print out the Python `eco` variable
 
 
       >>> print(eco)
-      &lt;PGDB eco, currently has 0 PFrames&gt;
+      <PGDB eco, currently has 0 PFrames>
 
 
 <p>
@@ -227,7 +227,7 @@ eco:
 
 
 	>>> print(eco)
-	&lt;PGDB eco, currently has 1 PFrames&gt;
+	<PGDB eco, currently has 1 PFrames>
 
 Indeed, this PFrame for TRP was also bound to the PGDB meta such that it
 became an attribute of meta. That is, executing `eco.trp` again would
@@ -335,11 +335,11 @@ from Pathway Tools, can be done by
 
 
  which assign to variable `reactions` a PFrame representing the class
-of reactions from PGDB eco. Printing out this variable gives 
+of reactions from PGDB eco. Printing out this variable gives
 
 
-   >>> reactions
-   &lt;PFrame class |Reactions| currently with 3237 instances (eco)&gt;
+    >>> reactions
+    <PFrame class |Reactions| currently with 3237 instances (eco)>
 
 
 
@@ -402,9 +402,8 @@ from Pathway tools. (Note: the methods `get_slot_values` and `get_slot_value`
 presented later in this document always trigger a transfer from Pathway Tools.)
 We can verify that the the PFrame has the left attribute in the PFrame itself:
 
-   >>> reactions[0]
-   {'left': ['|CPD0-889|', '|WATER|'], '_gotframe': False, 
-   '_isclass': False, 'pgdb': <PGDB eco, currently has 3240 PFrames, 'frameid': '|RXN0-5040|'}
+	>>> reactions[0]
+	{'left': ['|CPD0-889|', '|WATER|'], '_gotframe': False, '_isclass': False, 'pgdb': <PGDB eco, currently has 3240 PFrames, 'frameid': '|RXN0-5040|'}
 
 ### Explicit Transfer of Frames
 
@@ -423,7 +422,7 @@ the following can be used: (We retrieve only the first 10 reactions
 to reduce execution time)
 
 
-   >>> r = eco.get_frame_objects([f.frameid for f in reactions.instances[0:10]])
+	>>> r = eco.get_frame_objects([f.frameid for f in reactions.instances[0:10]])
 
 
 The list comprehension gathers the frame ids in one list and a call to
@@ -487,7 +486,7 @@ source code of file `PGDB.py` or by using the standard help mechanism
 of Python (or IPython). For example,
 
 
-   >>> help(pythoncyc.PGDB)
+	>>> help(pythoncyc.PGDB)
 
 
 will list the source documentation of the class PGDB with the list of
@@ -495,7 +494,7 @@ all methods. For a particular function, you can request its documentation
 by naming the function. For example,
 
 
-   >>> help(pythoncyc.PGDB.get_slot_value)
+	>>> help(pythoncyc.PGDB.get_slot_value)
 
 
 Almost all these methods do not create PFrame objects but return a
@@ -506,7 +505,7 @@ returned. For example, the following call retrieves all the pathways
 from eco by returning a list of frame ids (as strings): 
 
 
-     >>> pwys = eco.all_pathways()
+	>>> pwys = eco.all_pathways()
 
 
 As presented in the previous section, to create PFrames, and the
@@ -532,12 +531,12 @@ A PFrame can also be used instead of the frame id. For example,
 `eco.trp` refers to a PFrame for compound TRP and
 can be used to do the same operation we just did, that is,
 
-    >>> eco.reactions_of_compound(eco.trp)
+	>>> eco.reactions_of_compound(eco.trp)
 
 Some methods modify the PGDB in Pathway Tools, such as
 
 
-     >>> eco.put_slot_value('RXN-14361','GIBBS-0',2.7)
+	>>> eco.put_slot_value('RXN-14361','GIBBS-0',2.7)
 
 
 which modifies the slot 'GIBBS-0' for frame 'RXN-14361' to the value
@@ -654,13 +653,13 @@ way:
  Note: Typically, modifying a slot should be done on your own
 created PGDB, not on EcoCyc.  In any case, you will not be able to
 save EcoCyc and any slots modified in EcoCyc will be restored to its
-original value after you restart the Pathway Tools application.  
+original value after you restart the Pathway Tools application.
 
 As for a slot such as `chemical-formula`, you can represent the
 value to store in the slot as a list of sublists, such as:
 
 
-      >>> eco.put_slot_values('water', 'chemical-formula', [['|H|',2],['|O|',1]])
+	>>> eco.put_slot_values('water', 'chemical-formula', [['|H|',2],['|O|',1]])
       {'|H|': [2], '|O|': [1]}
 
 The returned value is a dictionary that contains frames ids (i.e., the vertical bars
@@ -680,10 +679,10 @@ the data being stored.
 in the slot automatically convert these frame ids into frame
 references.  For example, the slot `structure-atoms` is a list
 of atom species frames. To modify it would simply require to list the
-atom species frame ids. For example, for compound water: 
+atom species frame ids. For example, for compound water:
 
 
-     >>> eco.put_slot_values('water', 'structure-atoms', ['|O|', '|H|', '|H|'])
+	>>> eco.put_slot_values('water', 'structure-atoms', ['|O|', '|H|', '|H|'])
 
 
 Notice that we passed the frame ids O and H using the vertical bars.
@@ -713,7 +712,7 @@ indexing syntax applied to a PGDB object. You could also directly create PFrames
 To do so, you need to import the class PFrame:
 
 
-   >>> from pythoncyc.PToolsFrame import PFrame
+	>>> from pythoncyc.PToolsFrame import PFrame
 
 
 The required parameters to create a PFrame are the frame id (a string) and a PGDB
@@ -731,7 +730,7 @@ the data of the frame is not requested from the server, that is,
 a PFrame object is created containing only the frame id, the PGDB and a fews other
 attributes to maintain the PFrame. This is what the print out of that frame shows
 above. That PFrame is also attached, as an attribute, to the PGDB eco. That
-can be seen by evaluating 
+can be seen by evaluating
 
 
     >>> eco._frames.keys()
@@ -858,13 +857,13 @@ the PGDB with orgid 'eco' is available from the Python server of Pathway Tools.
 
 
 This function may take more than 30 seconds to execute because it is retrieving
-a large amount of data from Pathway Tools. 
+a large amount of data from Pathway Tools.
 
 ### Function to Create a PGDB with all its Compounds and Reactions
 
 The following is a simple function to create a PGDB object based on
 the organism name (i.e., orgid) and retrieve all its basic PFrames for
-compounds and reactions. Note that these PFrames has no other data 
+compounds and reactions. Note that these PFrames has no other data
 than their frame ids.
 
 
@@ -882,7 +881,7 @@ than their frame ids.
  Assuming that the PGDB ecoli is available on your running Pathway
 Tools server, the following call would bound variable `pgdb` to a PGDB
 object containing the PFrames for the compounds and reactions of
-ecoli: 
+ecoli:
 
 
 	pgdb = create_pgdb_with_compounds_and_reactions('eco')
@@ -894,11 +893,13 @@ send an email to ptools-support@ai.sri.com
 
 ## Acknowledgments
 
+PythonCyc was developed by Mario Latendresse.
 Eli Bogart inspired some implementation details of PythonCyc from
 its PyCyc package, Tomer Altman wrote the original Pathway Tools Lisp
 API documentation at http://brg.ai.sri.com/ptools/api/ and Daniel
 Weaver suggested to implement some specific functions to access the
-functionality of FBA in Pathway Tools.  
+functionality of FBA in Pathway Tools. Peter Midford implemented
+the upgrade to python 3.
 
 * * *
 
