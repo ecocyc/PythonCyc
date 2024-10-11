@@ -1,6 +1,6 @@
 
 >----------------------------------------------------------------------
->Copyright (c) 2014-2020, SRI International
+>Copyright (c) 2014-2024, SRI International
 >
 >Permission is hereby granted, free of charge, to any person obtaining
 >a copy of this software and associated documentation files (the
@@ -48,7 +48,7 @@ directory of your choice.
 
 The next step is to make PythonCyc accessible from your running Python
 interpreter. To do so, install PythonCyc according to one of the
-following platforms.  
+following platforms.
 
 ### Mac OS X and Linux
 
@@ -70,7 +70,7 @@ alternatively, you can install using setup tools, by executing:
 
 
 
-       shell> python setup.py install
+	shell> python setup.py install
 
 
 but installing with pip is recommended.
@@ -79,17 +79,17 @@ The installation command copies several files from the pythoncyc subdirectory
 either the virtual environment or the system python libraries, byte-compiles these files
 and may do other operations depending on the Python installation you
 have. No error messages should be reported. In case of errors, make
-sure you have installed Python and that it is working. 
+sure you have installed Python and that it is working.
 
 To test your
-PythonCyc installation, please consult the Section [Getting Started](#gettingStarted) in this document.  
+PythonCyc installation, please consult the Section [Getting Started](#gettingStarted) in this document.
 
 ### Microsoft Windows
 
 On a Microsoft Windows platform, starts a command prompt window using
 the start/Accessories menu, then change the directory to the location
 where you unpacked or cloned the PythonCyc package. You must have the file
-`setup.py`, and the subdirectory `pythoncyc`, in that directory. 
+`setup.py`, and the subdirectory `pythoncyc`, in that directory.
 Then, at the command prompt, execute the following command:
 
 
@@ -107,7 +107,6 @@ document.
 
 ## Getting Started
 
-<a name="gettingStarted">
 
  Pathway Tools (version 18.5 and up) must be running on some
 computer.  You can start pathway tools from either the command line or
@@ -132,12 +131,12 @@ be. In summary, we recommend to start Pathway Tools using the following options
 or to run locally for added security with the options
 
 
-   ./pathway-tools -lisp -python-local-only
+    ./pathway-tools -lisp -python-local-only
 
 
 To run PythonCyc remotely from Pathway Tools, please
-read the Section <a href="#remoteaccess">Remotely Accessing Pathway
-Tools</a> to setup PythonCyc to remotely access Pathway Tools.  In the
+read the Section [Remotely Accessing Pathway Tools](#remotely-accessing-pathway-tools)
+to setup PythonCyc to remotely access Pathway Tools.  In the
 following, we assume that Pathway Tools is running on the same computer
 as Python and that it has the EcoCyc database.
 
@@ -699,7 +698,6 @@ complete list of available methods and their documentation.
 
 ## More on PFrame Objects
 
-<a name="pframes">
 
 PFrame is a Python class to represent Pathway Tools' frames in
 PythonCyc. A PFrame can represent a Pathway Tools class frame (e.g.,
@@ -763,7 +761,7 @@ When creating a class, if `getFrameData=True` is specified, the class slots and 
 data are fetched and all the instances of the class are also created
 as, mostly empty, PFrames. They are mostly empty in the sense that the
 slots and data of the instances are not transferred, but only the
-frame id of each frame initialized each PFrame.  
+frame id of each frame initialized each PFrame.
 
 The attribute values of the PFrames cannot be modified, that is, attributes are read only.
 If you try to modify a PFrame attribute, a PythonCycError is raised.
@@ -773,7 +771,6 @@ itself in Pathway Tools is modified. See class PGDB for these methods.
 
 ## Remotely Accessing Pathway Tools
 
-<a name="remoteaccess">
 
 It is possible to use PythonCyc to access a Pathway Tools
 application running on a remote computer. First, Pathway Tools must be
