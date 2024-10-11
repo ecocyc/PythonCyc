@@ -35,12 +35,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 <p> PythonCyc is a Python interface package to <a
  href="http://brg.ai.sri.com/ptools/">Pathway Tools</a>, version 18.5
- or above. PythonCyc has been tested with Python 3.7 and IPython on Mac
- OS X, Linux and Microsoft Windows.  Since PythonCyc is based on the programming
+ or above. PythonCyc has been tested with Python 3.5, 3.7, 3.8 and 3.12 on Mac
+ OS X, and Linux, and 3.7 on Microsoft Windows.  Since PythonCyc is based on the programming
  language Python, you must use a Python interpreter to use
  PythonCyc. In the following we assume that you have installed Python
  (we recommend version 3.7 or above, but it most likely work with any
  3.x version).  
+
+For the complete API documentation of PythonCyc, please consult <a href="http://pythoncyc.readthedocs.org">PythonCyc API</a>
 
  For the latest news about PythonCyc, please consult the 
  <a href="http://brg.ai.sri.com/ptools/pythoncyc.html">PythonCyc web page</a>.
@@ -167,7 +169,7 @@ or for added cybersecurity with the keyword :local-only
 read the Section <a href="#remoteaccess">Remotely Accessing Pathway
 Tools</a> to setup PythonCyc to remotely access Pathway Tools.  In the
 following, we assume that Pathway Tools is running on the same computer
-as Python and that it has the MetaCyc database.
+as Python and that it has the EcoCyc database.
 </p>
 
 <p>Start a Python interpreter on the same computer as Pathway Tools.
@@ -186,30 +188,30 @@ Then enter the command
 </p>
 
 <pre>
->>> meta = pythoncyc.select_organism('meta')
+>>> eco = pythoncyc.select_organism('eco')
 </pre>
 
 <p>This command sends a request to Pathway Tools to create a
-<b>PGDB</b> object associated with the database MetaCyc, which is
-specified using the 'meta' organism identifier (i.e., orgid). That PGDB
-object is assigned to the variable <tt>meta</tt>. (If you get
+<b>PGDB</b> object associated with the database EcoCyc, which is
+specified using the 'eco' organism identifier (i.e., orgid). That PGDB
+object is assigned to the variable <tt>eco</tt>. (If you get
 an error message, it could be that Pathway Tools was not started 
 as given above.)
 </p>
 
 <p>
-Print out the Python <tt>meta</tt> variable
+Print out the Python <tt>eco</tt> variable
 
 <pre>
->>> print(meta)
-&lt;PGDB meta, currently has 0 PFrames&gt;
+>>> print(eco)
+&lt;PGDB eco, currently has 0 PFrames&gt;
 </pre>
 
 <p>
-This means that <tt>meta</tt> is bound to a PGDB object, its orgid is meta and
+This means that <tt>eco</tt> is bound to a PGDB object, its orgid is eco and
 it has currently no PFrames attached to it. Indeed, currently we only created
 a PGDB object that has no <i>data frames</i> in it. The following sections will show
-how to retrieve data frames from Pathway Tools to PythonCyc via this variable <tt>meta</tt>.
+how to retrieve data frames from Pathway Tools to PythonCyc via this variable <tt>eco</tt>.
 </p>
 
 <p>
@@ -226,24 +228,24 @@ PToolsFrame.py and PTools.py. As usual, the Python <tt>help</tt>
 command can provide documentation about the modules, classes and
 methods: for example, <tt>help(pythoncyc)</tt> prints the
 documentation for the module <tt>pythoncyc</tt>; or the
-command <tt>help(meta)</tt>, once variable <tt>meta</tt> is bound to a
+command <tt>help(eco)</tt>, once the variable <tt>eco</tt> is bound to a
 PGDB object, prints all the methods available, and their documentation,
 for a PGDB object.
 </p>
 
 <h2>Retrieving Frames From Pathway Tools using Frame Ids</h2>
 
-<p> Using that variable <tt>meta</tt>, it is now possible to request data from the
-MetaCyc database.  For example, the following statement retrieves compound
+<p> Using that variable <tt>eco</tt>, it is now possible to request data from the
+EcoCyc database.  For example, the following statement retrieves compound
 TRP (i.e., L-tryptophan). 'TRP' is the <b>frame id</b> of compound L-tryptophan, which we
 can also specify in lower case letters: 
 </p>
 
 <pre>
->>> meta.trp
+>>> eco.trp
 </pre>
 
-<p>Evaluating <tt>meta.trp</tt>, if done for the first time, triggers
+<p>Evaluating <tt>eco.trp</tt>, if done for the first time, triggers
 a call to Pathway Tools to retrieve the <i>frame data</i> (or simply
 frame) of compound TRP: the slots (also called attributes) and their
 data of the Pathway Tools frame representing compound TRP are
@@ -263,19 +265,19 @@ slots when referring to a frame in Pathway Tools and attributes when referring
 to the same slots in PythonCyc.  
 </p>
 
-<p>Printing out meta now shows that we have one PFrame attached to 
-meta:
+<p>Printing out eco now shows that we have one PFrame attached to 
+eco:
 </p>
 
 <pre>
->>> print(meta)
-&lt;PGDB meta, currently has 1 PFrames&gt;
+>>> print(eco)
+&lt;PGDB eco, currently has 1 PFrames&gt;
 </pre>
 
-<p>Indeed, this PFrame for TRP was also bound to the PGDB meta such that it
-became an attribute of meta. That is, executing <tt>meta.trp</tt> again would
+<p>Indeed, this PFrame for TRP was also bound to the PGDB eco such that it
+became an attribute of eco. That is, executing <tt>eco.trp</tt> again would
 not retrieve the data from Pathway Tools, but directly use the PFrame
-already created for it and now stored as an attribute for meta. All
+already created for it and now stored as an attribute for eco. All
 created PFrames based on a PGDB object are attached to that object and
 no two PFrames can have the same frame id for that PGDB object. </p>
 </p>
@@ -290,10 +292,10 @@ are read only, that is, their attributes cannot be modified.  </p>
 
 <p>From a PGDB object, a PFrame can be accessed using the frame id
 either by using the attribute or indexing syntax of Python. For example, the
-following would retrieve reaction with frame id RXN-9000 </p>
+following would retrieve the reaction with frame id RXN-14361 </p>
 
 <pre>
->>> rxn9000 = meta['RXN-9000']
+>>> rxn14361 = eco['RXN-14361']
 </pre>
 
 <p>
@@ -301,11 +303,11 @@ or by using the attribute syntax
 </p>
 
 <pre>
->>> rxn9000 = meta.rxn_9000
+>>> rxn14361 = eco.rxn_14361
 </pre>
 
 <p>Both forms access the same attribute. Note that the frame id
-'RXN-9000' has a dash in its name but an attribute in Python cannot
+'RXN-14361' has a dash in its name but an attribute in Python cannot
 have a dash. To provide access to such frame ids, using the attribute
 syntax of Python, dashes are converted to underscores. Mixed cases
 (i.e., upper or lower case letters) can be used for both syntax
@@ -324,10 +326,10 @@ it has the character '+' which cannot be used in a Python identifier.
 by '|'. In general, these vertical bars identify symbols in
 PythonCyc which exists as Lisp symbols in Pathway Tools. When
 symbols are return from Pathway Tools, the vertical bars are inserted.
-For example, we can see the frame id of meta.trp by printing it: </p>
+For example, we can see the frame id of eco.trp by printing it: </p>
 
 <pre>
->>> print(meta.trp.frameid)
+>>> print(eco.trp.frameid)
 |TRP|
 </pre>
 
@@ -344,7 +346,7 @@ included in a Python dictionary bound to an attribute, of that PGDB
 object, called 'frames'. The keys of that dictionary are the frame ids
 of the PFrames converted to valid Python identifiers. The __getattr__
 and __getitem__ methods of the PGDB class were written in such a way
-that such an expression as 'meta.trp' searches in the dictionary for a
+that such an expression as 'eco.trp' searches in the dictionary for a
 PFrame with frame id 'TRP'.  
 </p>
 
@@ -358,12 +360,12 @@ The reactions can be retrieved in the following way:
 <p>
 
 <pre>
->>> rxns_trp_right = [meta[fid] for fid in meta.trp.appears_in_right_side_of]
+>>> rxns_trp_right = [eco[fid] for fid in eco.trp.appears_in_right_side_of]
 </pre>
 
 <p>The variable <tt>rxns_trp_right</tt> is bound to a list of PFrames 
 representing the reactions. Each PFrame becomes also attributes to
-<tt>meta</tt> based on the frame ids.
+<tt>eco</tt> based on the frame ids.
 <p>
 
 <p>The basic mechanism of attribute access and indexing on a PGDB
@@ -376,35 +378,35 @@ which indirectly provides the frame ids of large number of frames.
 
 <h2>Retrieving Classes of Frames from Pathway Tools</h2>
 
-<p>Another implicit operations done by PythonCyc is the retrieval of
+<p>Another implicit operation done by PythonCyc is the retrieval of
 classes of objects from Pathway Tools. There are many classes of
 objects, such as Reactions, Proteins, Compounds, Genes, Pathways, and
-more. For example, retrieving the class of all reactions of PGDB meta,
+more. For example, retrieving the class of all reactions of PGDB eco,
 from Pathway Tools, can be done by </p>
 
 <pre>
->>> reactions = meta.reactions
+>>> reactions = eco.reactions
 </pre>
 
 <p> which assign to variable <tt>reactions</tt> a PFrame representing the class
-of reactions from PGDB meta. Printing out this variable gives 
+of reactions from PGDB eco. Printing out this variable gives 
 
 <pre>
 >>> reactions
-&lt;PFrame class |Reactions| currently with 13081 instances (meta)&gt;
+&lt;PFrame class |Reactions| currently with 3237 instances (eco)&gt; 
 </pre>
 
 <p>
 As can be seen, <tt>reactions</tt> is a PFrame and it is a class which
-has the name |Reactions| in Pathway Tools and it has 13,081 instances,
-that is, 13,081 reactions, all from the PGDB meta (i.e., MetaCyc).
-The number of instances may differ for you because MetaCyc is
+has the name |Reactions| in Pathway Tools and it has 3237 instances,
+that is, 3237 reactions, all from the PGDB eco (i.e., EcoCyc).
+The number of instances may differ for you because EcoCyc is
 periodically modified. Remember that the vertical bars in a name means
 that it is a symbol, and here it is more specifically a frame id.
 </p>
 
 <p>This PFrame <tt>reactions</tt> has an attribute <tt>instances</tt>
-assigned with the list of all reactions of the MetaCyc PGDB. Each such
+assigned with the list of all reactions of the EcoCyc PGDB. Each such
 reaction is also a PFrame, although these PFrames have currently <b>no
 other data than the frame id of each reaction</b>. It is a <i>lazy
 transfer</i> of the frames where only the frame ids were requested
@@ -420,20 +422,21 @@ but we can also use indexing directly on the class reactions such as
 
 <pre>
 >>> reactions[0]
-{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': '|3.1.22.4-RXN|'}
+{'_gotframe': False, '_isclass': False, 'pgdb': <PGDB eco, currently has 3240 PFrames,
+'frameid': '|RXN0-5040|'}
 </pre>
 
-but the frameid value is likely different (MetaCyc is periodically
+but the frameid value is likely different (EcoCyc is periodically
 modified). As mentioned, each object in a PGDB has a unique identifier
 called the frame id, which in PythonCyc is stored in the field frameid
 of a PFrame. When the reactions were retrieved from Pathway Tools,
-the frame id values also became attributes of the Python PGDB object meta,
-that is, we can also indexed object <tt>meta</tt> with the frame
+the frame id values also became attributes of the Python PGDB object eco,
+that is, we can also indexed object <tt>eco</tt> with the frame
 ids. For example,
 
 <pre>
->>> meta['|3.1.22.4-RXN|']
-{'_gotframe': False, '_isclass': False, 'pgdb': meta, 'frameid': '|3.1.22.4-RXN|'}
+>>> eco['|3.1.22-4-RXN|']
+{'_gotframe': False, '_isclass': False, 'pgdb': <PGDB eco, currently has 3240 PFrames>, 'frameid': '|3.1.22.4-RXN|'}
 </pre>
 
 <p>
@@ -447,7 +450,7 @@ example,
 
 <pre>
 >>> reactions[0].left
-['|Double-Stranded-DNAs|', '|WATER|']
+['|WATER|', '|CPD0-889|']
 </pre>
 
 <p>
@@ -461,8 +464,8 @@ We can verify that the the PFrame has the left attribute in the PFrame itself:
 
 <pre>
 >>> reactions[0]
-{'left': ['|Double-Stranded-DNAs|', '|WATER|'], '_gotframe': False, 
-'_isclass': False, 'pgdb': meta, 'frameid': u|3.1.11.3-RXN|'}
+{'frameid': '|RXN0-5040|', '_isclass': False, '_gotframe': False, 'pgdb': <PGDB eco, currently has 3240 PFrames>,
+ 'left': ['|WATER|', '|CPD0-889|']}
 </pre>
 
 
@@ -486,12 +489,12 @@ to reduce execution time)
 </p>
 
 <pre>
->>> r = meta.get_frame_objects([f.frameid for f in reactions.instances[0:10]])
+>>> r = eco.get_frame_objects([f.frameid for f in reactions.instances[0:10]])
 </pre>
 
 <p>
 The list comprehension gathers the frame ids in one list and a call to
-the <tt>get_frame_objects</tt> method is done, using the PGDB object meta, to
+the <tt>get_frame_objects</tt> method is done, using the PGDB object eco, to
 retrieve from Pathay Tools all the slots and their data for all the
 frame ids. This approach always transfer the frames from Pathway Tools
 even if we already transferred them already. This can be needed if the
@@ -510,15 +513,15 @@ that can have multiple values. In both cases, only the data from one
 slot is retrieved, not the whole frame. That is, there are <b>no
 creation of PFrames</b> when using these functions.  </p>
 
-<p>For example, the following retrieve the Gibbs free
-energy of reaction RXN-9000 from MetaCyc</p>
+<p>For example, the following retrieves the Gibbs free
+energy of reaction RXN-14361 from EcoCyc</p>
 
 <pre>
->>> meta.get_slot_value('RXN-9000', 'GIBBS-0')
-7.5217285
+>>> eco.get_slot_value('RXN-14361', 'GIBBS-0')
+3.1530151
 </pre>
 
-<p>We did not specify the vertical bars for the frame id 'RXN-9000'
+<p>We did not specify the vertical bars for the frame id 'RXN-14361'
 and the name of the slot 'GIBBS-0' although both are symbols in
 Pathway Tools.  The translation to symbols is handled automatically by
 the function <tt>get_slot_value</tt>, and many other functions that
@@ -530,7 +533,7 @@ The following retrieves the chemical formula of compound TRP
 </p>
 
 <pre>
->>> meta.get_slot_values('TRP', 'CHEMICAL-FORMULA')
+>>> eco.get_slot_values('TRP', 'CHEMICAL-FORMULA')
 {'|N|': [2], '|C|': [11], '|H|': [12], '|O|': [2]}
 </pre>
 
@@ -547,7 +550,7 @@ explanation on data conversion between Lisp and Python.  </p>
 <h2>Calling Pathway Tools Functions Using a PGDB Object</h2> 
 
 <p>Using a variable bound to a PGDB object, which is the case for
-variable <tt>meta</tt> from the previous sections, any of the more than 150
+variable <tt>eco</tt> from the previous sections, any of the more than 150
 methods from the PGDB class can be called, each corresponding to a
 specific function in Pathway Tools. The list of these methods (or
 functions), and their documentation, can be obtained by consulting the
@@ -567,15 +570,15 @@ by naming the function. For example,
 >>> help(pythoncyc.PGDB.get_slot_value)
 </pre>
 
-<p>Almost all these methods do not create PFrame objects but returns
+<p>Almost all these methods do not create PFrame objects but return a
 basic Python object, that is, boolean, numbers, strings, lists,
 dictionaries, and so on. When a Pathway Tools object (e.g., gene,
 pathway, reaction) needs to be returned, the frame id (as a string) is
 returned. For example, the following call retrieves all the pathways
-from meta by returning a list of frame ids (as strings): </p>
+from eco by returning a list of frame ids (as strings): </p>
 
 <pre>
->>> pwys = meta.all_pathways()
+>>> pwys = eco.all_pathways()
 </pre>
 
 <p>As presented in the previous section, to create PFrames, and the
@@ -583,12 +586,12 @@ data about pathways, using frame ids, you can use the method
 <tt>get_frame_objects</tt>. 
 
 <p>Many other Lisp functions, defined in Pathway Tools, can be called using
-Python's syntax. These functions often need a frame as one of the parameter.
+Python's syntax. These functions often need a frame as one of the parameters.
 A frame can be specified as a frame id (a string) or as a PFrame object. For example,
 </p>
 
 <pre>
->>> meta.reactions_of_compound('TRP')
+>>> eco.reactions_of_compound('TRP')
 </pre>
 
 <p>
@@ -601,12 +604,12 @@ Pathway Tools itself will report a 'non coercible frame'.
 </p>
 
 <p>A PFrame can also be used instead of the frame id. For example, 
-<tt>meta.trp</tt> refers to a PFrame for compound TRP and
+<tt>eco.trp</tt> refers to a PFrame for compound TRP and
 can be used to do the same operation we just did, that is,
 </p>
 
 <pre>
->>> meta.reactions_of_compound(meta.trp)
+>>> eco.reactions_of_compound(eco.trp)
 </pre>
 
 <p>
@@ -614,12 +617,12 @@ Some methods modify the PGDB in Pathway Tools, such as
 </p>
 
 <pre>
->>> meta.put_slot_value('RXN-9000','GIBBS-0',2.7)
+>>> eco.put_slot_value('RXN-14361','GIBBS-0',2.7)
 </pre>
 
 <p>
-which modifies the slot 'GIBBS-0' for frame 'RXN-9000' to the value
-2.7 for the PGDB associated with object meta, which in our case is MetaCyc.
+which modifies the slot 'GIBBS-0' for frame 'RXN-14361' to the value
+2.7 for the PGDB associated with object eco, which in our case is EcoCyc.
 </p>
 
 <p>
@@ -674,8 +677,8 @@ if the slot value is <tt>nil</tt>.
 that starts and ends with a '|', and contains no space, is assumed to
 represent a symbol and is translated successfully into one if indeed
 the Python string follows the correct syntax of a Lisp symbol. For example,
-the Python string <tt>"|RXN-9000|"</tt> is translated into the Lisp
-symbol <tt>RXN-9000</tt>.</p>
+the Python string <tt>"|RXN-14361|"</tt> is translated into the Lisp
+symbol <tt>RXN-14361</tt>.</p>
 
 <p>Lisp lists are translated to Python lists, but with one important
 exception: a Lisp list where all elements are non empty sublists, and
@@ -700,11 +703,11 @@ for the a chemical-formula slot value. On the other hand the Python
 dictionary <tt>{'|H|' : 2, '|O|' : 1}</tt> would be translated into
 <tt>((H . 2) (O . 1))</tt>, that is, a list of dotted pairs, which is
 not the desired Lisp representation for that slot but could be used
-correctly in some other context although Pathway Tools rarely use
+correctly in some other context although Pathway Tools rarely uses
 dotted pairs.  
 </p>
 
-<p>A vector from Pathway Tools is translated into a Python Lisp.
+<p>A vector from Pathway Tools is translated into a Python list.
 Note: there is no basic vector type in Python.
 </p>
 
@@ -729,7 +732,7 @@ frames is a list of strings, the synonyms of the compounds:
 </p>
 
 <pre>
->>> meta.get_slot_values('atp', 'synonyms')
+>>> eco.get_slot_values('atp', 'synonyms')
 ['adenylpyrophosphate', 'adenosine-triphosphate', "adenosine-5'-triphosphate"]
 </pre>
 
@@ -739,12 +742,12 @@ way:
 </p>
 
 <pre>
->>> meta.put_slot_values('atp', 'synonyms', ['adenylpyrophosphate', 'adenosine-triphosphate'])
+>>> eco.put_slot_values('atp', 'synonyms', ['adenylpyrophosphate', 'adenosine-triphosphate'])
 </pre>
 
 <p> Note: Typically, modifying a slot should be done on your own
-created PGDB, not on MetaCyc.  In any case, you will not be able to
-save MetaCyc and any slots modified in MetaCyc will be restored to its
+created PGDB, not on EcoCyc.  In any case, you will not be able to
+save EcoCyc and any slots modified in EcoCyc will be restored to its
 original value after you restart the Pathway Tools application.  </p>
 
 <p>
@@ -753,7 +756,7 @@ value to store in the slot as a list of sublists, such as:
 </p>
 
 <pre>
->>> meta.put_slot_values('water', 'chemical-formula', [['|H|',2],['|O|',1]])
+>>> eco.put_slot_values('water', 'chemical-formula', [['|H|',2],['|O|',1]])
 {'|H|': [2], '|O|': [1]}
 </pre>
 
@@ -763,7 +766,7 @@ as in
 </p>
 
 <pre>
->>> meta.put_slot_values('water', 'chemical-formula', {'|H|': [2], '|O|': [1]})
+>>> eco.put_slot_values('water', 'chemical-formula', {'|H|': [2], '|O|': [1]})
 </pre>
 
 <p>
@@ -780,7 +783,7 @@ of atom species frames. To modify it would simply require to list the
 atom species frame ids. For example, for compound water: </p>
 
 <pre>
->>> meta.put_slot_values('water', 'structure-atoms', ['|O|', '|H|', '|H|'])
+>>> eco.put_slot_values('water', 'structure-atoms', ['|O|', '|H|', '|H|'])
 </pre>
 
 <p>Notice that we passed the frame ids O and H using the vertical bars.
@@ -819,14 +822,14 @@ To do so, you need to import the class PFrame:
 
 <p>
 The required parameters to create a PFrame are the frame id (a string) and a PGDB
-object. For example, assuming that variable <tt>meta</tt> is bound to a PGDB object, the following
-create a PFrame to represent the reaction RXN-9000,
+object. For example, assuming that variable <tt>eco</tt> is bound to a PGDB object, the following
+create a PFrame to represent the reaction RXN-14361,
 </p>
 
 <pre>
->>> PFrame('RXN-9000', meta)
-{'_gotframe': False, '_isclass': False, 'pgdb': <PGDB meta, currently has 1 PFrames>, 
- 'frameid': '|RXN-9000|'}
+>>> PFrame('RXN-14361', eco)
+{'_gotframe': False, '_isclass': False, 'pgdb': <PGDB eco, currently has 1 PFrames>, 
+ 'frameid': '|RXN-14361|'}
 </pre>
 
 <p>
@@ -834,35 +837,30 @@ By default, an instance PFrame (not a class PFrame) is created and
 the data of the frame is not requested from the server, that is,
 a PFrame object is created containing only the frame id, the PGDB and a fews other
 attributes to maintain the PFrame. This is what the print out of that frame shows
-above. That PFrame is also attached, as an attribute, to the PGDB meta. That
+above. That PFrame is also attached, as an attribute, to the PGDB eco. That
 can be seen by evaluating 
 </p>
 
 <pre>
->>> meta._frames.keys()
-['rxn_9000']
+>>> eco._frames.keys()
+['rxn_14361']
 </pre>
 
 <p>
 By specifying the keyword argument <tt>getFrameData=True</tt>, all slots and data of the frame are retrieved 
 from Pathway Tools. For example, the following
-create a PFrame for reaction RXN-9000 and retrieve all its slots and data,
+create a PFrame for reaction RXN-14361 and retrieve all its slots and data,
 </p>
 
 <pre>
->>> PFrame('RXN-9000', meta, getFrameData=True)
-{'enzymatic_reaction': ['|ENZRXN-14558|'], 'right': ['|PROTON|', '|CPD-9460|', '|UDP|'], 
-'schema_p': True, '_isclass': False, 'creator': '|Kate|', 'ec_number': ['|EC-2.4.1.17|'], 
-'creation_date': 3408307573, 'reaction_direction': '|LEFT-TO-RIGHT|', 'frameid': '|RXN-9000|', 
-'in_pathway': ['|PWY-5756|'], 'left': ['|CPD-9459|', '|UDP-GLUCURONATE|'], 
-'citations': ['WOJCIECHOWSKI75'], 'key_slots': '|COMMON-NAME|', 'physiologically_relevant_p': [True], 
-'synonym_slots': ['|ABBREV-NAME|', '|SYNONYMS|'], 'atom_mappings': {'|NO-HYDROGEN-ENCODING|': 
-[[38, 37, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 
-7, 9, 10, 12, 13, 60, 61, 62, 63, 64, 65, 66, 19, 20, 22, 24, 23, 68, 69, 67, 32, 0, 1, 2, 3, 4, 
-5, 8, 11, 14, 15, 16, 17, 18, 21, 25, 29, 33, 28, 26, 27, 30, 31, 34, 36, 35], 
-[{'|CPD-9459|': [37, 69], '|UDP-GLUCURONATE|': [0, 36]}, {'|CPD-9460|': [0, 44], '|UDP|': [45, 69]}]]}, 
-'_gotframe': True, 'gibbs_0': 2.7000000000000002, 'substrates': ['|UDP-GLUCURONATE|', 
-'|CPD-9459|', '|PROTON|', '|CPD-9460|', '|UDP|'], 'pgdb': <PGDB meta, currently has 1 PFrames>}
+>>> PFrame('RXN-14361', meta, getFrameData=True)
+{'frameid': '|RXN-14361|', '_isclass': False, '_gotframe': True, 'pgdb': <PGDB eco, currently has 1 PFrames>,
+'ec_number': ['|EC-2.4.1.17|'], 'schema_p': True, 'reaction_direction': '|PHYSIOL-LEFT-TO-RIGHT|',
+'credits': ['|O0-13|', '|amackie|'], 'reaction_balance_status': '|BALANCED|', 'gibbs_0': 3.1530151,
+'synonym_slots': ['|ABBREV-NAME|', '|SYNONYMS|'], 'creator': '|amackie|',
+'substrates': ['|CPD0-934|', '|UDP-GLUCURONATE|', '|CPD-15237|', '|UDP|', '|PROTON|'], 'key_slots': '|COMMON-NAME|',
+'enzymatic_reaction': ['|ENZRXN0-7685|'], 'creation_date': 3572053675, 'left': ['|UDP-GLUCURONATE|', '|CPD0-934|'],
+'instance_name_template': 'RXN-*', 'physiologically_relevant_p': [True], 'right': ['|CPD-15237|', '|UDP|', '|PROTON|']}
 </pre>
 
 <p>
@@ -870,7 +868,7 @@ For creating a class, the <tt>isClass</tt> keyword parameter must say so,
 </p>
 
 <pre>
->>> PFrame('Reactions', meta, isClass=True)
+>>> PFrame('Reactions', eco, isClass=True)
 </pre>
 
 <p>
@@ -909,8 +907,8 @@ or with also the option -lisp to get a Lisp console to monitor the Python server
 
 <p>
 Note: If you were using the option '-python-local-only' instead of '-python' 
-the Python server would not accept connection from 
-remote computers increasing cybersecurity.
+the Python server runs with increased security by not accepting connections
+from remote computers.
 </p>
 
 <p>
@@ -978,11 +976,11 @@ def gather_gibbs_substrates_of_reactions(orgid):
 </pre>
 
 <p>This function could be called in the following way assuming that
-the PGDB with orgid 'ecoli' is available from the Python server of Pathway Tools.
+the PGDB with orgid 'eco' is available from the Python server of Pathway Tools.
 </p>
 
 <pre>
->>> gibbs_dict = gather_gibbs_substrates_of_reactions('ecoli')
+>>> gibbs_dict = gather_gibbs_substrates_of_reactions('eco')
 </pre>
 
 <p>
@@ -1016,7 +1014,7 @@ object containing the PFrames for the compounds and reactions of
 ecoli: </p>
 
 <pre>
-pgdb = create_pgdb_with_compounds_and_reactions('ecoli')
+pgdb = create_pgdb_with_compounds_and_reactions('eco')
 </pre>
 
 
@@ -1026,6 +1024,16 @@ pgdb = create_pgdb_with_compounds_and_reactions('ecoli')
 For comments, questions and bug reports about PythonCyc,
 send an email to ptools-support@ai.sri.com
 </p>
+
+<h2> Acknowledgements </h2>
+
+PythonCyc was implemented by Mario Latendresse.
+Eli Bogart inspired some implementation details of PythonCyc from
+its PyCyc package, Tomer Altman wrote the original Pathway Tools Lisp
+API documentation at http://brg.ai.sri.com/ptools/api/ and Daniel
+Weaver suggested to implement some specific functions to access the
+functionality of FBA in Pathway Tools.  
+
 
 <hr>
 </body>
